@@ -1,9 +1,158 @@
- <video width="320" height="240" controls>
-  <source src="media/HiFi_Prototype_walkthrough.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Links</title>
+<style>
+  :root {
+    --bg: #eef1f4;
+    --surface: #ffffff;
+    --ink: #1b2733;
+    --muted: #5b6b7a;
+    --line: #d5dce3;
+    --accent: #0f6b6b;
+    --placeholder: #cfe3e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #151b21;
+      --surface: #1e262e;
+      --ink: #e6ecf1;
+      --muted: #9aabba;
+      --line: #2e3944;
+      --accent: #5fc4c4;
+      --placeholder: #27404a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 Georgia, "Times New Roman", serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 20px 80px; }
+  h1 { font-size: 2.2rem; line-height: 1.15; margin: 0 0 8px; }
+  .intro { color: var(--muted); margin: 0 0 40px; max-width: 52ch; }
 
- <video width="320" height="240" controls>
-  <source src="media/HiFi_Prototype_Trailer.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
+  .links { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .link {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+  }
+  .link:hover { border-color: var(--accent); }
+  .link:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .thumb {
+    width: 100%; height: 100%; min-height: 110px;
+    object-fit: cover; display: block;
+    background: var(--placeholder);
+  }
+  .fallback {
+    display: grid; place-items: center; min-height: 110px;
+    background: var(--placeholder); color: var(--accent);
+    font: 700 2rem/1 Georgia, serif;
+  }
+  .text { padding: 14px 18px; }
+  .text h2 { margin: 0 0 4px; font-size: 1.15rem; }
+  .text p { margin: 0 0 6px; color: var(--muted); font-size: .95rem; }
+  .host { font: .8rem/1 system-ui, sans-serif; color: var(--accent); }
+
+  @media (max-width: 520px) {
+    .link { grid-template-columns: 1fr; }
+    .thumb, .fallback { height: 150px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Khaled Kottmann (aka K0RDS)</h1>
+  <p class="intro">This is a collection of Projects I worked on</p>
+  <ul class="links" id="links"></ul>
+</main>
+
+<script>
+  // ADD YOUR LINKS HERE. One block per site.
+  // image: a file in your repo (e.g. "images/example.jpg") or a full image URL.
+  // Leave image empty ("") to show a letter placeholder.
+  const links = [
+    {
+      title: "Code on GitHub",
+      url: "https://github.com/R4YL0",
+      description: "All publicly available projects are live on github.",
+      image: "images/github.jpg"
+    },
+    {
+      title: "Games on itch.io",
+      url: "https://k0rds.itch.io/",
+      description: "Red Sand Ranch as well as other Games I work on ;P",
+      image: "images/itchio.jpg"
+    },
+    {
+      title: "Music on SoundCloud",
+      url: "https://soundcloud.com/user-583290038",
+      description: 'Link to "Teenage Thoughts" as well as other Songs I've worked on',
+      image: "images/soundcloud.jpg"
+    },
+    {
+      title: "YouTube",
+      url: "https://www.youtube.com/@K0RDS",
+      description: "I am currently practicing my video editing skills, so I might upload some more vids.",
+      image: ""
+    }
+  ];
+
+  const list = document.getElementById("links");
+
+  for (const item of links) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.className = "link";
+    a.href = item.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+
+    const makeFallback = () => {
+      const f = document.createElement("div");
+      f.className = "fallback";
+      f.textContent = item.title.charAt(0).toUpperCase();
+      return f;
+    };
+
+    let media;
+    if (item.image) {
+      media = document.createElement("img");
+      media.className = "thumb";
+      media.src = item.image;
+      media.alt = "";
+      media.loading = "lazy";
+      media.onerror = () => media.replaceWith(makeFallback());
+    } else {
+      media = makeFallback();
+    }
+
+    const text = document.createElement("div");
+    text.className = "text";
+    const host = new URL(item.url).hostname.replace(/^www\./, "");
+    const h2 = document.createElement("h2");
+    h2.textContent = item.title;
+    const p = document.createElement("p");
+    p.textContent = item.description;
+    const small = document.createElement("span");
+    small.className = "host";
+    small.textContent = host;
+    text.append(h2, p, small);
+
+    a.append(media, text);
+    li.append(a);
+    list.append(li);
+  }
+</script>
+</body>
+</html>
