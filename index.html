@@ -10,24 +10,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Jersey+20&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #eef1f4;
-    --surface: #ffffff;
-    --ink: #1b2733;
-    --muted: #5b6b7a;
-    --line: #d5dce3;
-    --accent: #0f6b6b;
-    --placeholder: #cfe3e3;
+  --main: #19766E;
+  --dark: #12544E;
+  --light: #CDF4F1;
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* light mode */
+  --bg: var(--white);
+  --surface: var(--light);
+  --ink: var(--dark);
+  --muted: var(--main);
+  --accent: var(--main);
+  --line: color-mix(in srgb, var(--main) 30%, var(--light));
+  --placeholder: var(--main);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--black);
+    --surface: var(--dark);
+    --ink: var(--light);
+    --muted: color-mix(in srgb, var(--light) 80%, var(--dark));
+    --accent: var(--light);
+    --line: color-mix(in srgb, var(--light) 30%, var(--dark));
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #151b21;
-      --surface: #1e262e;
-      --ink: #e6ecf1;
-      --muted: #9aabba;
-      --line: #2e3944;
-      --accent: #5fc4c4;
-      --placeholder: #27404a;
-    }
+}
   }
   * { box-sizing: border-box; }
   body {
@@ -60,7 +68,7 @@
   }
   .fallback {
     display: grid; place-items: center; min-height: 110px;
-    background: var(--placeholder); color: var(--accent);
+    background: var(--placeholder); color: var(--light);
     font: 700 2rem/1 Georgia, serif;
   }
   .text { padding: 14px 18px; }
